@@ -14,44 +14,43 @@
             "Deal": {
                 "Concurrency": 1
             },
-            "Docker": {
-                "Entrypoint": [
-                    "bash", "-c",
-                    "python3 inference.py"
-                ],
-                "Image": "quay.io/lukemarsden/sdxl:v0.9-lilypad1-v2",
+            "Docker": {},
+            "EngineSpec": {
+                "Params": {
+                "Entrypoint": null,
                 "EnvironmentVariables": [
                     {{if .PromptEnv}}{{.PromptEnv}}{{else}}"PROMPT=question mark floating in space"{{end}},
                     {{if .SeedEnv}}{{.SeedEnv}}{{else}}"RANDOM_SEED=42"{{end}},
                     "OUTPUT_DIR=/outputs/",
                     "HF_HUB_OFFLINE=1"
-                ]
-            },
-            "Engine": "Docker",
-            "Language": {
-                "JobContext": {}
+                ],
+                "Image": "quay.io/lukemarsden/sdxl:v0.9-lilypad1-v2",
+                "Parameters": [
+                    "python3 inference.py 2>/dev/null"
+                ],
+                "WorkingDirectory": ""
+                },
+                "Type": "docker"
             },
             "Network": {
                 "Type": "None"
             },
+            "Outputs": [
+                {
+                "Name": "outputs",
+                "Path": "/outputs"
+                }
+            ],
             "PublisherSpec": {
-                "Type": "IPFS"
+                "Type": "ipfs"
             },
             "Resources": {
                 "GPU": "1"
             },
             "Timeout": 1800,
-            "Verifier": "Noop",
             "Wasm": {
-                "EntryModule": {}
-            },
-            "outputs": [
-                {
-                    "Name": "outputs",
-                    "StorageSource": "IPFS",
-                    "path": "/outputs"
-                }
-            ]
+                "EntryModule": ""
+            }
         }
     }
 }
